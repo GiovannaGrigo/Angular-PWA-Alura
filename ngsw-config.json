@@ -21,8 +21,8 @@
       "updateMode": "prefetch",
       "resources": {
         "files": [
-          "/assets/**",
-          "/media/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+          "/assets/images/*.(jpg|jpeg|png|webp|avif)",
+          "/assets/sounds/*.(mp3|wav"
         ]
       }
     }
@@ -39,12 +39,17 @@
         "maxAge": "3d",
         "timeout": "100"
       }
+    },
+    {
+      "name": "assets",
+      "urls": [
+        "/assets/**"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 200,
+        "maxAge": "30d"
+      }
     }
-  ],
-  "navigationUrls": [
-    "/**",
-    "!/**/*.*",
-    "!/**/*__*",
-    "!/**/*__*/**"
   ]
 }
