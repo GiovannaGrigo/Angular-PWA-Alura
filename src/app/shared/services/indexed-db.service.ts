@@ -15,7 +15,7 @@ export class IndexedDBService {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    if(isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId)) {
       this.initDB();
     }
   }
@@ -25,7 +25,7 @@ export class IndexedDBService {
 
     request.onupgradeneeded = (e) => {
       const db = (e.target as IDBOpenDBRequest).result;
-      if(db.objectStoreNames.contains(this.store.name)) {
+      if (db.objectStoreNames.contains(this.store.name)) {
         db.createObjectStore(this.store.name, { keyPath: this.store.key });
       }
     };
@@ -44,7 +44,7 @@ export class IndexedDBService {
   }
 
   private get store$(): IDBObjectStore {
-    if(!isPlatformBrowser(this.platformId)) {
+    if (!isPlatformBrowser(this.platformId)) {
       throw new Error('IndexdedDB is only avaliable in browser');
     }
 
@@ -59,6 +59,16 @@ export class IndexedDBService {
         const req = this.store$.add(task);
         req.onsuccess = () => { obs.next(task); obs.complete() };
         req.onerror = () => obs.error('Add task failed');
+      }))
+    )
+  }
+
+  listAllTasks(): Observable<TaskItem[]> {
+    return this.waitForDB().pipe(
+      switchMap(() => new Observable<TaskItem[]>(obs => {
+        const req = this.store$.getAll();
+        req.onsuccess = () => { obs.next(req.result); obs.complete() };
+        req.onerror = () => obs.error('List tasks failed');
       }))
     )
   }

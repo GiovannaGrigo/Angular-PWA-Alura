@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskItem } from './task-item';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,7 +17,7 @@ import { IndexedDBService } from '../../services/indexed-db.service';
   templateUrl: './task-manager.component.html',
   styleUrl: './task-manager.component.scss'
 })
-export class TaskManagerComponent {
+export class TaskManagerComponent implements AfterViewInit {
 
   taskForm: FormGroup;
   hasShowForm = false;
@@ -31,6 +31,12 @@ export class TaskManagerComponent {
   ) {
     this.taskForm = this.fb.group({
       description: ['', Validators.required]
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.indexedDBService.listAllTasks().subscribe((tasks) => {
+      this.tasks = tasks;
     });
   }
 
