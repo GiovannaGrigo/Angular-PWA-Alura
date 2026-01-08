@@ -4,6 +4,7 @@ import { Component, effect, Inject, inject } from '@angular/core';
 import { ContextService, ContextType } from '../../services/context.service';
 import { FormsModule } from '@angular/forms';
 import { AudioService } from '../../services/audio.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-timer-control',
@@ -32,7 +33,9 @@ export class TimerControlComponent {
 
   context = this.contextService.contextSignal$;
 
-  constructor() {
+  constructor(
+    private notificationService: NotificationService
+  ) {
     effect(() => {
       this.setTimerSecond();
       this.configTimer();
@@ -76,6 +79,7 @@ export class TimerControlComponent {
       this.setTimerSecond();
       this.configTimer();
 
+      this.sendNotification();
       return;
     }
 
@@ -104,6 +108,28 @@ export class TimerControlComponent {
       case 'descanso-longo':
         this.timerInSeconds = 15;
         break;
+    }
+  }
+
+  private async sendNotification() {
+    try {
+      await this.notificationService.requestPermission();
+
+      const context = this.context();
+
+      if(context.includes('descanso')) {
+        this.notificationService.showNotificaton('Notificação', {
+          body: 'Tempo de descanso finalizado!'
+        });
+
+        return;
+      }
+      
+      this.notificationService.showNotificaton('Notificação', {
+          body: 'Tempo de foco finalizado!'
+        });
+    } catch (error) {
+      console.error('Erro ao enviar notificação:', error);
     }
   }
 }
