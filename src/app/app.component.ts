@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { UpdateService } from './shared/services/update.service';
+import { ConnectivityService } from './shared/services/connectivity.service';
+import { NotificationService } from './shared/services/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -7,16 +9,26 @@ import { UpdateService } from './shared/services/update.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private updateService: UpdateService
-  ) {
 
+  private updateService = inject(UpdateService);
+  private notificationService = inject(NotificationService);
+  private connectivityService = inject(ConnectivityService);
+
+  constructor() {
+    effect(() => {
+      if (!this.connectivityService.isOnline) {
+        this.notificationService.showNotification('Notificacao', { body: 'Você está offline :(' });
+
+        return;
+      }
+      this.notificationService.showNotification('Notificacao', { body: 'Você está online :)' });
+    });
   }
 
   async ngOnInit() {
     const hasUpdate = await this.updateService.checkForUpdate();
 
-    if(hasUpdate) {
+    if (hasUpdate) {
       console.log('Atualização encontrada durante a inicialização')
     }
   }

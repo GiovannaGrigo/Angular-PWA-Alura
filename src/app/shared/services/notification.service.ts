@@ -29,7 +29,7 @@ export class NotificationService {
     return window.Notification.requestPermission();
   }
 
-  showNotificaton(title: string, options?: NotificationOptions): void {
+  showNotification(title: string, options?: NotificationOptions): void {
     if (!this.notificationSupported) {
       console.warn('Notifications not supported');
       return;
