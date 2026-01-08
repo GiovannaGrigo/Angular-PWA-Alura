@@ -48,7 +48,7 @@ export class TimerControlComponent implements OnInit {
   ngOnInit(): void {
     this.swPush.messages.subscribe((message) => {
       const NotificationMessage = message as NotificationMessage;
-      this.notificationService.showNotificaton('Notificaion', {body: NotificationMessage.body});
+      this.notificationService.showNotification('Notificaion', {body: NotificationMessage.body});
     });
   }
 
@@ -128,14 +128,14 @@ export class TimerControlComponent implements OnInit {
       const context = this.context();
 
       if(context.includes('descanso')) {
-        this.notificationService.showNotificaton('Notificação', {
+        this.notificationService.showNotification('Notificação', {
           body: 'Tempo de descanso finalizado!'
         });
 
         return;
       }
       
-      this.notificationService.showNotificaton('Notificação', {
+      this.notificationService.showNotification('Notificação', {
           body: 'Tempo de foco finalizado!'
         });
     } catch (error) {
