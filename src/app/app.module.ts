@@ -9,6 +9,7 @@ import { TimerControlComponent } from './shared/components/timer-control/timer-c
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { BrowserModule } from '@angular/platform-browser';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     CommonModule,
     RouterOutlet,
     HeaderComponent,
