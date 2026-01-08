@@ -3,6 +3,7 @@
   "short_name": "ng-fokus",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
+  "version": "1.0.0",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

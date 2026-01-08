@@ -22,7 +22,7 @@
       "resources": {
         "files": [
           "/assets/images/*.(jpg|jpeg|png|webp|avif)",
-          "/assets/sounds/*.(mp3|wav"
+          "/assets/sounds/*.(mp3|wav)"
         ]
       }
     }
